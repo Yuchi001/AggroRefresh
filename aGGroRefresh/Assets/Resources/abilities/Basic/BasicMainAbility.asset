@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d67895a667149e3b482f55fe0001c56, type: 3}
+  m_Name: BasicMainAbility
+  m_EditorClassIdentifier: 
+  abilityName: Powered shot
+  abilityDescription: Fire a magical arrow that creates explosion that deals <ap
+    value=<ed>> + <ap ceil percentage=<edsp>> in range of <er> units. First enemy
+    hit will additionaly take <ap value=<ohd>> + <ap percentage=<ohdsp> ceil>
+  abilityDescriptionPreview: Fire a magical arrow that creates explosion that deals
+    <color=#0051FF>25(<sprite name=AbilityPower>)</color> + <color=#0051FF>5<color=#0051FF>(<sprite
+    name=AbilityPower>25%)</color></color> in range of 1.5 units. First enemy hit
+    will additionaly take <color=#0051FF>50(<sprite name=AbilityPower>)</color> +
+    <color=#0051FF>2<color=#0051FF>(<sprite name=AbilityPower>10%)</color></color>
+  abilitySoulAssociate: 8
+  abilityDisplayIndex: -1
+  abilityIcon: {fileID: 21300000, guid: 22fd89df8f296fa49a1c0bc416f887d4, type: 3}
+  continuesIcon: {fileID: 0}
+  isContinues: 0
+  isUsable: 0
+  coolDown: 0
+  unlockLevel: 0
+  abilityType: 0
+  abilityBehaviour: {fileID: 0}
+  setIdManually: 1
+  explosionRange: 1.5
+  explosionDamage: 25
+  onHitDamage: 50
+  explosionDamageScalePercentage: 25
+  onHitDamageScalePercentage: 10
