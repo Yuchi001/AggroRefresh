@@ -22,8 +22,12 @@ namespace PlayerPack.PlayerOngoingStatsPack
         #endregion
 
         private ESoulType? _pickedSoul = null;
-        
-        private ItemSlot<SoWeapon> _weaponSlot = null;
+
+        private List<ItemSlot<SoWeapon>> _weaponSlots = new()
+        {
+            null,
+            null,
+        };
         private List<ItemSlot<SoSoulRing>> _ringSlots = new()
         {
             null,
@@ -33,8 +37,8 @@ namespace PlayerPack.PlayerOngoingStatsPack
         //todo: chest slot
         //todo: boots slot
 
-        public delegate void PickItemDelegate(SoEqItem item);
-        public static event PickItemDelegate OnPickItem;
+        public delegate void PickItemDelegate(SoEqItem item, int slotId);
+        public static event PickItemDelegate OnPickItemToEq;
 
         public void PickSoul(ESoulType soulType)
         {
@@ -57,10 +61,12 @@ namespace PlayerPack.PlayerOngoingStatsPack
             {
                 case EEquipmentItemType.Weapon:
                     var weapon = eqItem as SoWeapon;
-                    if (_weaponSlot.Item is null)
+                    for (var i = 0; i < _weaponSlots.Count; i++)
                     {
-                        _weaponSlot = new ItemSlot<SoWeapon>(weapon);
-                        OnPickItem?.Invoke(weapon);
+                        if (_weaponSlots[i] is not null) continue;
+                        
+                        _weaponSlots[i] = new ItemSlot<SoWeapon>(weapon);
+                        OnPickItemToEq?.Invoke(weapon, i);
                         return;
                     }
                     PlaceItemInInventory(weapon);
@@ -72,7 +78,7 @@ namespace PlayerPack.PlayerOngoingStatsPack
                         if(_ringSlots[i] is not null) continue;
                         
                         _ringSlots[i] = new ItemSlot<SoSoulRing>(ring);
-                        OnPickItem?.Invoke(ring);
+                        OnPickItemToEq?.Invoke(ring, i);
                         return;
                     }
                     PlaceItemInInventory(ring);
