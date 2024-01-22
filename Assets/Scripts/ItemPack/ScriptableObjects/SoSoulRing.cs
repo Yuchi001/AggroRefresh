@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace ItemPack.ScriptableObjects
 {
-    [CreateAssetMenu(menuName = "Custom/Item/SoulRing")]
+    [CreateAssetMenu(menuName = "Custom/Item/SoulRing", fileName = "new Basic Soul Ring")]
     public sealed class SoSoulRing : SoEqItem
     {
         [SerializeField] private ESoulType soulType;

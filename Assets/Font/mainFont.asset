@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
   m_Name: mainFont
   m_EditorClassIdentifier: 
-  hashCode: 0
+  hashCode: 997595576
   material: {fileID: 3487557637539666532}
-  materialHashCode: 0
+  materialHashCode: -1942588264
   m_Version: 1.1.0
   m_SourceFontFileGUID: adf62eca233ccfe4a9f30bb43774d95d
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: adf62eca233ccfe4a9f30bb43774d95d, type: 3}
@@ -2409,9 +2409,9 @@ Material:
     - _OutlineWidth: 0
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
-    - _ScaleRatioA: 1
-    - _ScaleRatioB: 1
-    - _ScaleRatioC: 1
+    - _ScaleRatioA: 0
+    - _ScaleRatioB: 0
+    - _ScaleRatioC: 0
     - _ScaleX: 1
     - _ScaleY: 1
     - _ShaderFlags: 0

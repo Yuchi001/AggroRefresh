@@ -1,33 +1,68 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-using ItemPack;
+using Enum;
 using ItemPack.Enum;
 using ItemPack.ScriptableObjects;
 using PlayerPack.PlayerOngoingStatsPack;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 namespace Managers
 {
     public class EquipmentManager : MonoBehaviour
     {
         [SerializeField] private List<SlotUI> slots;
+        [SerializeField] private List<StatUI> stats;
 
+        private static PlayerOngoingStats PlayerStats => PlayerOngoingStats.Instance;
         private void Awake()
         {
-            PlayerOngoingStats.OnPickItemToEq += PickItemToEqToEq;
+            PlayerOngoingStats.OnPickItemToEq += PickItemToEq;
+            PlayerOngoingStats.OnPickEnchantment += UpdateSelectedFields;
+        }
+
+        private IEnumerator Start()
+        {
+            yield return new WaitUntil(() => PlayerStats != null);
+            
+            foreach (var stat in stats)
+            {
+                stat.statTextField.text = ": " + Mathf.CeilToInt(PlayerStats.GetStatValue(stat.statType));
+            }
         }
 
         private void OnDisable()
         {
-            PlayerOngoingStats.OnPickItemToEq -= PickItemToEqToEq;
+            PlayerOngoingStats.OnPickItemToEq -= PickItemToEq;
+            PlayerOngoingStats.OnPickEnchantment -= UpdateSelectedFields;
+        }
+        
+        private void UpdateSelectedFields(SoItem item)
+        {
+            foreach (var stat in item.Stats)
+            {
+                var statUI = stats.FirstOrDefault(s => s.statType == stat.statType);
+                if(statUI == default) continue;
+
+                statUI.statTextField.text = ": " + Mathf.CeilToInt(PlayerStats.GetStatValue(stat.statType));
+            }
         }
 
-        private void PickItemToEqToEq(SoEqItem item, int slotId)
+        private void PickItemToEq(SoEqItem item, int slotId)
         {
-            var availableSlots = slots.Where(s => s.slotType == item.EquipmentItemType) as List<SlotUI>;
-            if (availableSlots == null || availableSlots.Count <= slotId)
+            UpdateSelectedFields(item);
+            
+            var availableSlots = new List<SlotUI>();
+            foreach (var slot in slots)
+            {
+                if(slot.slotType != item.EquipmentItemType) continue;
+                availableSlots.Add(slot);
+            }
+            if (availableSlots.Count <= slotId)
             {
                 Debug.LogError("Check if slots are setup correctly");
                 return;
@@ -35,6 +70,13 @@ namespace Managers
             
             availableSlots[slotId].EquipItem(item);
         }
+    }
+
+    [System.Serializable]
+    public class StatUI
+    {
+        public TextMeshProUGUI statTextField;
+        public EStatType statType;
     }
 
     [System.Serializable]

@@ -47,7 +47,7 @@ namespace EntityBase
 
             if (damagePack.OnHitDamage == null) return;
 
-            Stats.ModifyStat(EStatType.Health, -damagePack.OnHitDamage.Value);
+            Stats.ModifyStat(EStatType.Health, -damagePack.OnHitDamage.Value, false);
 
             ParticlesManager.Instance.SpawnDamageIndicator(damagePack, Collider2D);
 

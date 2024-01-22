@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Enum;
+using ItemPack.EnchantmentPack;
 using ItemPack.Enum;
 using ItemPack.ScriptableObjects;
 using SoulPack.Enum;
@@ -40,6 +42,9 @@ namespace PlayerPack.PlayerOngoingStatsPack
         public delegate void PickItemDelegate(SoEqItem item, int slotId);
         public static event PickItemDelegate OnPickItemToEq;
 
+        public delegate void PickEnchantmentDelegate(SoEnchantment enchantment);
+        public static event PickEnchantmentDelegate OnPickEnchantment;
+
         public void PickSoul(ESoulType soulType)
         {
             _pickedSoul = soulType;
@@ -50,13 +55,26 @@ namespace PlayerPack.PlayerOngoingStatsPack
         {
             Debug.Log(item.GetItemName());
             
+            foreach (var stat in item.Stats)
+            {
+                PlayerBase.PlayerBase.Instance.Stats.ModifyStat(stat.statType, stat.statValue, item.ItemType == EItemType.Equipment);
+            }
+            
             if (item.ItemType is EItemType.Enchantment)
             {
-                // todo: enchantment pick up logic
+                var enchantment = item as SoEnchantment;
+                if (enchantment == null) return;
+                enchantment.PickUp();
+                OnPickEnchantment?.Invoke(enchantment);
                 return;
             }
-
+            
             var eqItem = item as SoEqItem;
+            if (eqItem == null)
+            {
+                Debug.LogError("Item should be of type SoEqItem but it wasn't!");
+                return;
+            }
             switch (eqItem.EquipmentItemType)
             {
                 case EEquipmentItemType.Weapon:
@@ -103,6 +121,11 @@ namespace PlayerPack.PlayerOngoingStatsPack
         private void DropItem(SoEqItem item)
         {
             //todo: droping item mechanic
+        }
+
+        public float GetStatValue(EStatType statType)
+        {
+            return PlayerBase.PlayerBase.Instance.Stats.GetStatValue(statType);
         }
     }
 

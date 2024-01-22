@@ -26,9 +26,9 @@ namespace PlayerPack.PlayerOngoingStatsPack
             _baseStats = baseEntityStats;
             foreach (var stat in _baseStats.StatList)
             {
-                ModifyStat(stat.statType, stat.statValue);
+                ModifyStat(stat.statType, stat.statValue, false);
             }
-            ModifyStat(EStatType.Health, GetStatValue(EStatType.MaxHealth));
+            ModifyStat(EStatType.Health, GetStatValue(EStatType.MaxHealth), false);
         }
         private void Update()
         {
@@ -124,7 +124,7 @@ namespace PlayerPack.PlayerOngoingStatsPack
             _specialEffects.RemoveAll(s => s.EffectPack.EffectId == effectId);
         }
 
-        public void ModifyStat(EStatType statType, float modifiedVal, float? durationTime = null)
+        public void ModifyStat(EStatType statType, float modifiedVal, bool isPercentage, float? durationTime = null)
         {
             var statModifier = new StatModifier()
             {
@@ -137,8 +137,15 @@ namespace PlayerPack.PlayerOngoingStatsPack
 
         public float GetStatValue(EStatType statType)
         {
-            return _statModifiers.All(sm => sm.StatType != statType) ? 0 : 
-                _statModifiers.Where(sm => sm.StatType == statType).Sum(sm => sm.Value);
+            var baseStatVal = _statModifiers.All(sm => sm.StatType != statType) ? 0 : 
+                _statModifiers.Where(sm => sm.StatType == statType && !sm.IsPercentage).Sum(sm => sm.Value);
+            var finalStatVal = baseStatVal;
+            foreach (var stat in _statModifiers.Where(sm => sm.StatType == statType && sm.IsPercentage))
+            {
+                finalStatVal += baseStatVal * stat.Value / 100f;
+            }
+
+            return finalStatVal;
         }
 
         public void RemoveAllStatsWithId(string statId)
@@ -175,6 +182,7 @@ namespace PlayerPack.PlayerOngoingStatsPack
     {
         public EStatType StatType;
         public float Value;
+        public bool IsPercentage;
         public float? LastingDuration;
         [CanBeNull] public string StatId;
     }
