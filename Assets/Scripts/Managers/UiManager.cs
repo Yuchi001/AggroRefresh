@@ -24,6 +24,7 @@ namespace Managers
         public Transform GameCanvasTransform => gameCanvasTransform;
         public Canvas MainCanvas => mainCanvasTransform.GetComponent<Canvas>();
         public Canvas GameCanvas => gameCanvasTransform.GetComponent<Canvas>();
+        public RectTransform MainCanvasRect => mainCanvasTransform.GetComponent<RectTransform>();
 
         public static UiManager Instance { get; private set; }
         private void Awake()

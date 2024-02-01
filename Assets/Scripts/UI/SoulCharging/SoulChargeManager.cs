@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using PlayerPack.PlayerOngoingStatsPack;
 using SoulPack.Enum;
 using UnityEngine;
 
-namespace SoulPack.UI.SoulCharging
+namespace UI.SoulCharging
 {
     public class SoulChargeManager : MonoBehaviour
     {

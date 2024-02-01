@@ -4,7 +4,7 @@ using System.Linq;
 using AbilityPack.Enum;
 using Interfaces;
 using Managers.Enums;
-using SoulPack.UI.Combat;
+using UI.Combat;
 using UnityEngine;
 
 namespace Managers

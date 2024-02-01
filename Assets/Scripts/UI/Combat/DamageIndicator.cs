@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using AbilityPack.Enum;
 using Interfaces;
@@ -7,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace SoulPack.UI.Combat
+namespace UI.Combat
 {
     public class DamageIndicator : MonoBehaviour
     {
@@ -16,6 +15,7 @@ namespace SoulPack.UI.Combat
         [SerializeField] private float shrinkSpeed;
         [SerializeField] private Vector2 movementSpeed;
         [SerializeField] private float maxMovementHeight;
+        [SerializeField] private TextMeshProUGUI damageText;
         
         private Vector2 _sourceObjectPos;
         private bool SourceOnLeft => _sourceObjectPos.x < transform.position.x;
@@ -28,16 +28,10 @@ namespace SoulPack.UI.Combat
             _sourceObjectPos = hitObjCollider2D.transform.position;
             
             if (damagePack.OnHitDamage == null) return;
-
-            foreach (Transform child in transform)
-            {
-                if(!child.TryGetComponent<TextMeshProUGUI>(out var tmPro)) continue;
-                tmPro.text = damagePack.OnHitDamage.ToString();
-                
-                if(child.GetSiblingIndex() == 0) continue;
-                tmPro.color = damageColors.FirstOrDefault(c => c.key == damagePack.DamageType)!.value;
-            }
-
+            
+            damageText.text = damagePack.OnHitDamage.ToString();
+            damageText.color = damageColors.FirstOrDefault(c => c.key == damagePack.DamageType)!.value;
+            
             var bounds = hitObjCollider2D.bounds;
             _startPos = transform.position = new Vector3()
             {

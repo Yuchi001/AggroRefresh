@@ -9,15 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3add051c0214cba924a209081705461, type: 3}
-  m_Name: BasicFireRing
+  m_Script: {fileID: 11500000, guid: ec2d2e119ba54e6dad1852247892fce4, type: 3}
+  m_Name: WeaponTest
   m_EditorClassIdentifier: 
-  itemSprite: {fileID: 21300000, guid: fd68bce1ed76092469550b8e8222b813, type: 3}
-  itemName: small ring
+  itemSprite: {fileID: 21300000, guid: 3b98136d8f8bdfd40928489a98166dfc, type: 3}
+  itemName: Basic weapon
   itemTier: 0
   itemType: 0
   stats: []
-  equipmentItemType: 2
-  soulType: 0
-  soulAbility: {fileID: 0}
-  soulPointScaler: 2
+  equipmentItemType: 1
+  weaponType: 0
+  primaryAttack: {fileID: 0}

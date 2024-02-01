@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Managers;
+﻿using Managers;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
-using Utils;
-using Object = System.Object;
 
-namespace SoulPack.UI
+namespace UI
 {
     public abstract class UIBase<T> : MonoBehaviour, IInitializePotentialDragHandler where T : class
     {
@@ -37,16 +31,12 @@ namespace SoulPack.UI
             if(_isOpening) OpenTick();
             if(_isClosing) CloseTick();
 
-            if (Input.GetMouseButtonDown(0) && closeOnLostFocus)
-            {
-                Vector2 localMousePosition = _panel.InverseTransformPoint(Input.mousePosition);
-                if (_panel.GetComponent<RectTransform>().rect.Contains(localMousePosition))
-                {
-                    return;
-                }
+            if (!(Input.GetMouseButtonDown(0) && closeOnLostFocus)) return;
+            
+            Vector2 localMousePosition = _panel.InverseTransformPoint(Input.mousePosition);
+            if (_panel.GetComponent<RectTransform>().rect.Contains(localMousePosition)) return;
                 
-                SetCloseUI();
-            }
+            SetCloseUI();
         }
 
         private void OpenTick()
